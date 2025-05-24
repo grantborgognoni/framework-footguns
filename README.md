@@ -23,9 +23,15 @@ app.get('/data', asyncHandler(async (req, res) => {
 }));
 ```
 
+## Firebase
+
+**#2 - Firebase Background Triggers
+
+Unlike HTTP Functions (which return a 500 on unhandled errors), errors thrown in background triggers (e.g. onUpdate, onCreate) cause the Functions runtime to retry the event multiple times with no error response, only invokations.
+
 ## SvelteKit
 
-**#2 - Protected Routes:** A single `+layout.server.ts` auth guard only runs once on initial server-render. Any client-side navigation to nested pages bypasses it unless there’s a server component (`+page.server.ts` or `+layout.server.ts`) on that route.
+**#3 - Protected Routes:** A single `+layout.server.ts` auth guard only runs once on initial server-render. Any client-side navigation to nested pages bypasses it unless there’s a server component (`+page.server.ts` or `+layout.server.ts`) on that route.
 
 ### What happens
 
@@ -51,7 +57,7 @@ app.get('/data', asyncHandler(async (req, res) => {
 
 ---
 
-**#3 - Prevent leaking sensitive data across users via the cache**
+**#4 - Prevent leaking sensitive data across users via the cache**
 
 Let's be real. This is a bit of an unrealistic issue...but here it is:
 
