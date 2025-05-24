@@ -4,7 +4,7 @@
 
 [wip-badge]: https://img.shields.io/badge/status-wip-yellow
 
-Sometimes you hit the same issue more than once or want to make sure you're not missing something, then you do the research and you say, "oh, that's right." This is a list of those. 
+Sometimes you hit the same issue more than once or want to make sure you're not missing something, then you do the research and you say, "oh, I forgot, that's right." This is a list of those. 
 
 ## Express
 
