@@ -4,9 +4,26 @@
 
 [wip-badge]: https://img.shields.io/badge/status-wip-yellow
 
+## Express
+
+**#1 - Async errors aren’t auto-handled**
+
+In Express, unlike Firebase Functions, Cloud Run, Fastify, or NestJS, an `async (req, res) => { … }` that throws will result in a hung request and/or crash your server instead of throwing a 500.
+
+```js
+// helper to catch rejects
+const asyncHandler = fn => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
+app.get('/data', asyncHandler(async (req, res) => {
+  const data = await fetchData();
+  res.json(data);
+}));
+```
+
 ## SvelteKit
 
-**#1 - Protected Routes:** A single `+layout.server.ts` auth guard only runs once on initial server-render. Any client-side navigation to nested pages bypasses it unless there’s a server component (`+page.server.ts` or `+layout.server.ts`) on that route.
+**#2 - Protected Routes:** A single `+layout.server.ts` auth guard only runs once on initial server-render. Any client-side navigation to nested pages bypasses it unless there’s a server component (`+page.server.ts` or `+layout.server.ts`) on that route.
 
 ### What happens
 
@@ -32,7 +49,7 @@
 
 ---
 
-**#2 - Prevent leaking sensitive data across users via the cache**
+**#3 - Prevent leaking sensitive data across users via the cache**
 
 Let's be real. This is a bit of an unrealistic issue...but here it is:
 
