@@ -4,11 +4,13 @@
 
 [wip-badge]: https://img.shields.io/badge/status-wip-yellow
 
+Sometimes you hit the same issue more than once or want to make sure you're not missing something, then you do the research and you say, "oh, that's right." This is a list of those. 
+
 ## Express
 
-**#1 - Async errors aren’t auto-handled**
+**#1 - Async errors aren’t auto handled**
 
-In Express, unlike Firebase Functions, Cloud Run, Fastify, or NestJS, an `async (req, res) => { … }` that throws will result in a hung request and/or crash your server instead of throwing a 500.
+In Express, unlike Fastify, NestJS,or function runtimes like Firebase Functions, an `async (req, res) => { … }` that throws will result in a hung request and/or crash your server instead of throwing a 500.
 
 ```js
 // helper to catch rejects
