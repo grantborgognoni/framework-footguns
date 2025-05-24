@@ -38,7 +38,7 @@ Let's be real. This is a bit of an unrealistic issue...but here it is:
 
 Pages that render user specific or sensitive data could expose that data to other users or sessions via the cache.
 
-A user could log out and then click the browser Back button to see a cached copy of a private page. Worse, a shared proxy might serve one user’s protected page to a different user requesting the same URL.
+Example: A user could log out and then click the browser Back button to see a cached copy of a private page. Worse, a shared proxy might serve one user’s protected page to a different user requesting the same URL.
 
 ```ts
 // src/routes/account/+layout.server.ts
