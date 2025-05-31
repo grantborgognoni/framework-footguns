@@ -8,19 +8,51 @@ Sometimes you hit the same issue more than once or want to make sure you're not 
 
 ## Express
 
-**#1 - Async errors aren’t auto handled**
+**#1 - Async errors aren’t auto handled (FIXED IN EXPRESS V5)**
 
-In Express, unlike Fastify, NestJS,or function runtimes like Firebase Functions, an `async (req, res) => { … }` that throws will result in a hung request and/or crash your server instead of throwing a 500.
+In Express, unlike Fastify, NestJS,or function runtimes like Firebase Functions, an `async (req, res) => { … }` that throws will result in a hung request and/or crash your server instead of throwing a 500. 
 
 ```js
-// helper to catch rejects
-const asyncHandler = fn => (req, res, next) =>
-  Promise.resolve(fn(req, res, next)).catch(next);
+app.get("/books/:id", async (req, res, next) => {
+// To fix, anywhere asynchronous code is running, wrap in try catch a pass error to next
+  try {
+    const book = await db.get("SELECT * FROM books WHERE id = ?", [req.params.id]);
+    if (!book) throw new Error("Book not found");
+    res.json(book);
+  } catch (error) {
+    next(error); // The global error handler 
+  }
+});
+```
 
-app.get('/data', asyncHandler(async (req, res) => {
-  const data = await fetchData();
-  res.json(data);
-}));
+In Express version 5, express forwards async errors to the global error handler AUTOMATICALLY.
+
+```js
+app.get("/books/:id", async (req, res) => {
+  const book = await db.get("SELECT * FROM books WHERE id = ?", [req.params.id]);
+  if (!book) throw new Error("Book not found"); // Automatically caught by Express 5
+  res.json(book);
+});
+```
+
+V5: Error Handler Middleware
+
+```js
+export const errorHandler = (err, req, res, next) => {
+  console.error("Error:", err.message);
+
+  res.status(err.status || 500).json({
+    status: "error",
+    message: err.message || "Internal Server Error",
+  });
+};
+```
+
+V5: App Entrypoint
+
+```
+import { errorHandler } from "./middlewares/errorHandler.js";
+app.use(errorHandler); 
 ```
 
 ## Firebase
